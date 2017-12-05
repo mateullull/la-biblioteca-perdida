@@ -2,7 +2,7 @@
   "name": "la-biblioteca-perdida",
   "version": "1.0.0",
   "author": "Mateu <mateullull88@gmail.com>",
-  "description": "Aplicación para buscar mejor los audios de La Biblioteca Perdida en Ivoox",
+  "description": "Aplicación de escritorio de La Biblioteca Perdida.",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -14,14 +14,14 @@
     "e2e": "npm run pack && mocha test/e2e",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src test",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src test",
-    "pack": "npm run pack:main && npm run pack:renderer",
+    "pack": "electron-builder --dir",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
-    "postinstall": "npm run lint:fix",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "postinstall": "electron-builder install-app-deps",
+    "dist": "electron-builder",
+    "publish": "build -p always"
   },
   "build": {
     "productName": "la-biblioteca-perdida",
@@ -68,7 +68,8 @@
     "vue": "^2.3.3",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.5.3",
-    "vuex": "^2.3.1"
+    "vuex": "^2.3.1",
+    "electron-updater": "^2.16.3"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
