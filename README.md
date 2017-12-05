@@ -1,5 +1,7 @@
 # La Biblioteca Perdida
 
+![La-Biblioteca-Perdida](http://2.bp.blogspot.com/-ijtLiMaAAnQ/Uftuj_SBTVI/AAAAAAAAAOI/pGnFDTfX5SY/s1600/Logo%2BLBP.jpg)
+
 Aplicación de escritorio (Linux, Windows i MacOS) para escuchar y guardar los audios de [La Biblioteca Perdida](http://www.labibliotecaperdida.info).
 
 ## Hecho con
@@ -8,13 +10,40 @@ Aplicación de escritorio (Linux, Windows i MacOS) para escuchar y guardar los a
 * [Yarn](https://yarnpkg.com/lang/en/)
 * [Electron-builder](https://www.electron.build/)
 
+## Empezando
+
+En esta sección se detallarán los pasos a seguir para poder clonar el repositorio y poder contribuir al proyecto.
+
+### Requisitos previos
+
+....
+
+
+### Instalando
+
+....
+
+
+
+### Subiendo cambios al proyecto
+
+.....
+
+
 ## Versiones
 
 En esta aplicación se usará el versionado [SemVer](https://semver.org/lang/es/). For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
+
+## Changelog
+
+Aqui el changelog
+
+
 ## Autores
 
 * **Mateu Llull** - *Proyecto inicial* - [MateuLlull](https://github.com/MateuLlull)
+
 
 ## Agradecimientos
 
