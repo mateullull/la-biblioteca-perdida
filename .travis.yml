@@ -1,5 +1,3 @@
-# Commented sections below can be used to run tests on the CI server
-# https://simulatedgreg.gitbooks.io/electron-vue/content/en/testing.html#on-the-subject-of-ci-testing
 osx_image: xcode8.3
 sudo: required
 dist: trusty
@@ -20,35 +18,28 @@ addons:
     packages:
     - libgnome-keyring-dev
     - icnsutils
-    #- xvfb
 before_install:
 - mkdir -p /tmp/git-lfs && curl -L https://github.com/github/git-lfs/releases/download/v1.2.1/git-lfs-$([
   "$TRAVIS_OS_NAME" == "linux" ] && echo "linux" || echo "darwin")-amd64-1.2.1.tar.gz
   | tar -xz -C /tmp/git-lfs --strip-components 1 && /tmp/git-lfs/git-lfs pull
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends
+  -y icnsutils graphicsmagick xz-utils; fi
 install:
-#- export DISPLAY=':99.0'
-#- Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 - nvm install 7
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - source ~/.bashrc
 - npm install -g xvfb-maybe
 - yarn
 script:
-#- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
-#- yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
 - yarn run build
 branches:
   only:
   - master
-
 before_deploy:
-# Set up git user name and tag this commit
 - git config --local user.name "MateuLlull"
 - git config --local user.email "mateullull88@gmail.com"
-
 deploy:
   provider: releases
-  api_key:
-    secure: "a+SBIJisz1eeJIeyhPE3gy+TqvaPO+BFqyvcq1QCds0NPIOU2sqYwcTrUqngYPFE0GgzDBKhlnwZEwRd+f6EZ3L4SR+xUkUfrUhQw3IRmUFTanj4G3OYyTT1qxfblv1zcVkKq8gUvwSZnhoAreLHu4vXUVg5hNjHZSm+CglrnfEEew2i+z9xMNOQVQGieWEHIY0UT1U/wciOc7/y6AqmEYtv+BmC88CC2Foo+rYtL4qRgMl5HvIq9OfXbNdUb5qgb+og0U+1TybawhpdUg7kd2jDowLxzU0odo9foCkXyn/+RzugT0B6/jGB3+CQRpKO/QF9FO1C4654n6eJIHBEBkARw1W1gfcZ55lN+SGgkFSiX4kqLVfuTPAUqrnzb2nseQinR0c20pB7KlWm9g3iimTQper97ROVCEdm+F6RJ7B6w1Y0epEBPr421O5NdtUP3onkDRBpDXfvDwp//4zDF+B0Hy58COBo9G0EiSNyVY7FR9ViFT3sY9AioniaSJ1fHtFLvCGjhty+7bVfHdJEGbl4QmgvIrZm8zGzraVHKgy5eymApRbOkecEPPqm1dZo02pbPz5hztLZbs/7t6vTw1rWNDVnLy5rwmir8ZvEoW9EK5ScEt9fjtXknk1Nhs9SHEhXyWsvl0IHuPukWKkT685pUwM3gxmTaUCiRD3gs3o="
   skip_cleanup: true
+  api_key:
+    secure: AsnMhfcToVRYhpDWTp1UcynVZTwUFwpK4bz77gGWdPY3aA1YgFiHZJNO+e3nn2P600lCmq+neUCQxrXW1YZ9G9ZFGQADanAQM424aeYATxu1rXGdarOLDtiEwlGryprhSU3O/JZZg9Vt92I76I9EfC1PDIjZTUiAM3YBaWAqZuVngfPDt2aqm3xibcKphQczLXc63g+i21Yhjbysz8IDFPr40oidH+18n0AryKpY89yKQGRA9e7f6lg/Y9kj0ZOLgBPERrGEaKC5Onj6lvkAiBAoG5ayrAiPLLeyYc59aJRlYxRvcUTkIp0EVNtx7eqp3Nnsf2gRC/tNEF+bGLRSKSBfbWCCHOHk+i5ZlE0CVjnriIXjCGMKpoEZ75izhygjdmzPLGijVneJ2cSuHwJpcppkCGYH5o0/9kaRYQWCtw4F2y1HVS2RgXB37WtK+Np+iaoYdTF+DFJdkWtQxgaIdpQpwsl/JkoOyHI989JWyjNl8SKwkRs90SqWqff6hrP5h2p7Usf6dWm6dg9K0pfFhhGm91FG6HzzNXs5BEtiu1lf4AK5Y+fZGiMMuOugx8wQrElJAn0L/A70DYvMza7n7/ap32k1UWKmQbm0kSxEsD5T1kgIbgcKs36liWq0pLLAPy/jIDzr5Vn4J+NW9tuejdqdvcVA/l+sgKAcxAQ4ESk=
