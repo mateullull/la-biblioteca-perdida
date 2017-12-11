@@ -1,8 +1,9 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
+require('electron-debug')({ showDevTools: true })
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -24,7 +25,7 @@ function createWindow () {
     height: 563,
     useContentSize: true,
     width: 1200,
-    // resizable: false,
+    resizable: false,
     center: true,
     fullscreenable: false,
     title: 'La Biblioteca Perdida',
@@ -32,6 +33,8 @@ function createWindow () {
       webSecurity: false
     }
   })
+
+  // mainWindow.webContents.openDevTools()
 
   mainWindow.loadURL(winURL)
 
@@ -61,11 +64,41 @@ app.on('activate', () => {
  * support auto updating. Code Signing with a valid certificate is required.
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
+let ipcEvent = null
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
+if (process.env.NODE_ENV !== 'development') {
+  ipcMain.on('checkUpdates', (event, data) => {
+    ipcEvent = event
+    autoUpdater.checkForUpdates()
+  })
+
+  ipcMain.on('goWithUpdate', (event, data) => {
+    autoUpdater.downloadUpdate()
+  })
+}
+
+autoUpdater.autoDownload = false
+
+autoUpdater.on('error', (event, error) => {
+  dialog.showErrorBox('Error: ', error === null ? 'unknown' : (error.stack || error).toString())
 })
 
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+autoUpdater.on('update-available', (info) => {
+  ipcEvent.sender.send('checkUpdatesResult', info)
+})
+
+autoUpdater.on('update-not-available', () => {
+  dialog.showMessageBox({
+    title: 'No Updates',
+    message: 'Current version is up-to-date.'
+  })
+})
+
+autoUpdater.on('update-downloaded', () => {
+  dialog.showMessageBox({
+    title: 'Install Updates',
+    message: 'Updates downloaded, application will be quit for update...'
+  }, () => {
+    setImmediate(() => autoUpdater.quitAndInstall())
+  })
 })

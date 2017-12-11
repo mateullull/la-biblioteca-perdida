@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import InfiniteLoading from 'vue-infinite-loading'
 
 import App from './App'
 import router from './router'
@@ -17,6 +18,7 @@ import db from './datastore'
 // export default http
 
 Vue.use(ElementUI)
+Vue.component('infinite-loading', InfiniteLoading)
 Vue.prototype.$db = db
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))

@@ -12,7 +12,7 @@ const mutations = {
   CLEAR_LIST (state) {
     state.lista = []
   },
-  REFRESH_LIST (state, chapter) {
+  ADD_CHAPTER_TO_LIST (state, chapter) {
     state.lista.push(chapter)
   },
   SET_LIST (state, list) {
@@ -37,27 +37,22 @@ const actions = {
   resetList ({ commit }) {
     // do something async
     commit('CLEAR_LIST')
+    console.log('Clear List!')
     return new Promise((resolve, reject) => {
-      axios.get('https://www.ivoox.com/podcast-podcast-la-biblioteca-perdida_sq_f171036_1.html').then((response) => {
+      axios.get('https://raw.githubusercontent.com/mateullull/la-biblioteca-perdida/master/static/database.db').then((response) => {
         // get body data
-        const $ = cheerio.load(response.data)
-        $('.modulo-type-episodio').each(function (i, elem) {
-          var chapter = {
-            title: $(this).find('.title-wrapper a').text().trim(),
-            url: $(this).find('.title-wrapper a').attr('href'),
-            description: $(this).find('.title-wrapper button').attr('data-content'),
-            len: $(this).find('div.content p.time').text().trim(),
-            dateUploaded: $(this).find('li.date').attr('title').split('-')[1].trim(),
-            utcTime: parseDate($(this).find('li.date').attr('title').split('-')[1].trim()),
-            listened: false
-          }
-          commit('REFRESH_LIST', chapter)
-        })
+        let lista = response.data.split('{')
+        lista.shift()
+        for (var i in lista) {
+          let item = '{' + lista[i]
+          commit('ADD_CHAPTER_TO_LIST', JSON.parse(item))
+        }
+        resolve()
       })
     })
   },
   updateList ({ commit }, db) {
-    db.find({}).sort({utcTime: -1}).limit(10).exec((err, doc) => {
+    db.find({}).sort({utcTime: -1}).exec((err, doc) => {
       if (err) {
         console.log(err)
       } else {
@@ -82,7 +77,7 @@ const actions = {
                 return false
               } else {
                 db.insert(chapter)
-                commit('REFRESH_LIST', chapter)
+                commit('ADD_CHAPTER_TO_LIST', chapter)
               }
             })
             resolve()

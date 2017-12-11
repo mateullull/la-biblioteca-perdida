@@ -30,7 +30,7 @@
           </el-col>
         </el-row>
         <div class="text-center paypal-frm" style="background-color: #4C5456; bottom: 0px; position: absolute; width: 184px; padding-top: 15px; padding-left: 26px; padding-bottom: 10px;">
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="margin-bottom: 5px;">
               <input type="hidden" name="cmd" value="_donations">
               <input type="hidden" name="business" value="mikelcg@gmail.com">
               <input type="hidden" name="lc" value="ES">
@@ -41,6 +41,7 @@
               <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal. La forma rápida y segura de pagar en Internet">
               <img alt="paypal image" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
           </form>
+          <small style="font-size: 10px;color: rgb(204, 204, 204);bottom: 0px;position: absolute;margin-left: -20px;">Versión de la aplicación: {{ appVersion }}</small>
       </div>
     </el-aside>
     
@@ -51,7 +52,14 @@
 </template>
 
 <script>
+  import { remote } from 'electron'
+
   export default {
+    data: () => {
+      return {
+        appVersion: remote.app.getVersion()
+      }
+    },
     created: function () {
       this.$router.push({ path: 'audio-list' })
       const loading = this.$loading({
@@ -61,14 +69,26 @@
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
+      this.$electron.ipcRenderer.send('checkUpdates')
+
+      this.$electron.ipcRenderer.on('checkUpdatesResult', (event, data) => {
+        this.$confirm('Hay actualizaciones disponibles. ¿Desea actualizar?<br><br><b>Cambios: </b><br>' + data.releaseNotes, 'Info', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'info',
+          dangerouslyUseHTMLString: true
+        }).then(() => {
+          this.$electron.shell.openExternal('https://github.com/mateullull/la-biblioteca-perdida/releases/download/v' + data.version + '/' + data.path)
+        })
+      })
+
       const store = this.$store
       const db = this.$db
-
-      console.log('Created')
 
       this.$db.count({}).exec((err, count) => {
         if (err) {
           console.log(err)
+          loading.close()
         } else {
           if (count === 0) {
             store.dispatch('resetList').then(function () {
