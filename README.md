@@ -10,35 +10,24 @@ Aplicación de escritorio (Linux, Windows i MacOS) para escuchar y guardar los a
 * [Yarn](https://yarnpkg.com/lang/en/)
 * [Electron-builder](https://www.electron.build/)
 
-## Empezando
+## Como descargar la aplicación
 
-En esta sección se detallarán los pasos a seguir para poder clonar el repositorio y poder contribuir al proyecto.
+Para poder descargar y usar la aplicación en vuestros ordenadores solamente tenéis que ir a la sección de [Releases](https://github.com/mateullull/la-biblioteca-perdida/releases) que está en el menú superior y una vez dentro, descargar la aplicación correspondiente para vuestro sistema operativo, siempre seleccionando la última versión disponible (está marcada con el “tag” `latest release`)
 
-### Requisitos previos
+## ¿Puedo contribuir al proyecto?
 
-....
+Evidentemente! Lamentablemente mis habilidades en cuanto a diseño gráfico son muy limitadas, sería de agradecer si pudiéramos mejorar este aspecto (no solo en diseño de iconos o imágenes para la App, sino también en cuanto a su estructura y presentación de la información). Obviamente las mejoras a nivel de código también son bienvenidas.
 
+Si tienes alguna duda o sugerencia, puedes comentarlo en el [grupo de Telegram](https://t.me/joinchat/AAAAAEINIyZZyAB6ni7ZxA) de La Biblioteca Perdida o enviarme directamente un mensaje de Telegram.
 
-### Instalando
-
-....
-
+Si estás interesado en contribuir al proyecto, en las siguientes líneas te explico como hacerlo.
 
 
-### Subiendo cambios al proyecto
+## Contribuyendo al proyecto
 
-.....
-
-
-## Versiones
-
-En esta aplicación se usará el versionado [SemVer](https://semver.org/lang/es/). For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-
-## Changelog
-
-Aqui el changelog
-
+```
+[EN CONSTRUCCIÓN]
+```
 
 ## Autores
 
@@ -47,8 +36,7 @@ Aqui el changelog
 
 ## Agradecimientos
 
-* A todo el equipo de la biblioteca perdida
-* A los que contribuyeron desinteresadamente en esta aplicación
+* A todo el equipo de [La biblioteca perdida](http://labibliotecaperdida.blogspot.com.es/)
 
 
 ## FAQ
@@ -62,4 +50,4 @@ Si usas el botón _donar_ de la aplicación, el receptor del donativo es _La Bib
 
 ## Licencia
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Este proyecto se distribuye bajo licencia MIT, puedes ver más detalles en el archivo [LICENSE.md](LICENSE.md).

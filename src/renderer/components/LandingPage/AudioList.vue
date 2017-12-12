@@ -41,6 +41,7 @@
     },
     methods: {
       clearSearch () {
+        this.$ga.event('AudioList', 'ClearSearch-Clicked')
         this.inputSearch = ''
         document.getElementById('listContainer').scrollTop = 0
       },

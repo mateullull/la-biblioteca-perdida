@@ -61,6 +61,7 @@
       }
     },
     created: function () {
+      this.$ga.event('LandingPage', 'Loaded')
       this.$router.push({ path: 'audio-list' })
       const loading = this.$loading({
         lock: true,
@@ -72,13 +73,26 @@
       this.$electron.ipcRenderer.send('checkUpdates')
 
       this.$electron.ipcRenderer.on('checkUpdatesResult', (event, data) => {
-        this.$confirm('Hay actualizaciones disponibles. ¿Desea actualizar?<br><br><b>Cambios: </b><br>' + data.releaseNotes, 'Info', {
+        this.$confirm('Hay actualizaciones disponibles. ¿Desea actualizar?', 'Info', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'info',
           dangerouslyUseHTMLString: true
         }).then(() => {
-          this.$electron.shell.openExternal('https://github.com/mateullull/la-biblioteca-perdida/releases/download/v' + data.version + '/' + data.path)
+          this.$confirm('¿Qué tipo de actualización desea?', 'Info', {
+            confirmButtonText: 'Automática',
+            cancelButtonText: 'Manual',
+            type: 'info',
+            dangerouslyUseHTMLString: true
+          }).then(() => {
+            this.$notify.info({
+              title: 'Actualizando...',
+              message: 'Si la actualización automática no funciona, por favor, use la actualización manual'
+            })
+            this.$electron.ipcRenderer.send('goWithUpdate')
+          }).catch(() => {
+            this.$electron.shell.openExternal('https://github.com/mateullull/la-biblioteca-perdida/releases/download/v' + data.version + '/' + data.path)
+          })
         })
       })
 

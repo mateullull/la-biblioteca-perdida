@@ -41,10 +41,12 @@
     },
     methods: {
       alreadyListen (item) {
+        this.$ga.event('AudioItem', 'ToggleListened-Clicked')
         this.$store.commit('TOGGLE_LISTENED', item)
         this.$db.update({'_id': item._id}, {$set: {listened: item.listened}})
       },
       downloadFile (url, title) {
+        this.$ga.event('AudioItem', 'DownloadFile-Clicked', url)
         const restResourceService = new Downloader()
         this.$store.dispatch('downloadFileFromURL', url).then((downloadURL) => {
           restResourceService.download(downloadURL, title, (bytes, done) => {
@@ -56,6 +58,7 @@
       // addRepo () {
       // }
       open (link) {
+        this.$ga.event('AudioItem', 'OpenIvoox-Clicked', link)
         this.$electron.shell.openExternal(link)
       }
     }

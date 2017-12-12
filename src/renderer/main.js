@@ -10,12 +10,20 @@ import router from './router'
 import store from './store'
 import db from './datastore'
 
+import VueAnalytics from 'vue-analytics'
 // import VueResource from 'vue-resource'
 
 // Vue.use(VueResource)
 // Vue.http.options.emulateJSON = true
 // const http = Vue.http
 // export default http
+
+Vue.use(VueAnalytics, {
+  id: 'UA-111106762-1',
+  autoTracking: {
+    exception: true
+  }
+})
 
 Vue.use(ElementUI)
 Vue.component('infinite-loading', InfiniteLoading)

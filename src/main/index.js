@@ -87,18 +87,6 @@ autoUpdater.on('update-available', (info) => {
   ipcEvent.sender.send('checkUpdatesResult', info)
 })
 
-autoUpdater.on('update-not-available', () => {
-  dialog.showMessageBox({
-    title: 'No Updates',
-    message: 'Current version is up-to-date.'
-  })
-})
-
 autoUpdater.on('update-downloaded', () => {
-  dialog.showMessageBox({
-    title: 'Install Updates',
-    message: 'Updates downloaded, application will be quit for update...'
-  }, () => {
-    setImmediate(() => autoUpdater.quitAndInstall())
-  })
+  autoUpdater.quitAndInstall()
 })
