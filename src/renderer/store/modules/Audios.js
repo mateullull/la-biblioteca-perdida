@@ -36,19 +36,22 @@ const mutations = {
 const actions = {
   resetList ({ commit }) {
     // do something async
-    commit('CLEAR_LIST')
-    console.log('Clear List!')
     return new Promise((resolve, reject) => {
-      axios.get('https://raw.githubusercontent.com/mateullull/la-biblioteca-perdida/master/static/database.db').then((response) => {
-        // get body data
-        let lista = response.data.split('{')
-        lista.shift()
-        for (var i in lista) {
-          let item = '{' + lista[i]
-          commit('ADD_CHAPTER_TO_LIST', JSON.parse(item))
-        }
+      if (!navigator.onLine) {
         resolve()
-      })
+      } else {
+        commit('CLEAR_LIST')
+        axios.get('https://raw.githubusercontent.com/mateullull/la-biblioteca-perdida/master/static/database.db').then((response) => {
+          // get body data
+          let lista = response.data.split('{')
+          lista.shift()
+          for (var i in lista) {
+            let item = '{' + lista[i]
+            commit('ADD_CHAPTER_TO_LIST', JSON.parse(item))
+          }
+          resolve()
+        })
+      }
     })
   },
   updateList ({ commit }, db) {
@@ -59,29 +62,33 @@ const actions = {
         commit('SET_LIST', doc)
         let lastDate = doc[0].dateUploaded
         return new Promise((resolve, reject) => {
-          axios.get('https://www.ivoox.com/podcast-podcast-la-biblioteca-perdida_sq_f171036_1.html').then((response) => {
-            // get body data
-            const $ = cheerio.load(response.data)
-            $('.modulo-type-episodio').each(function (i, elem) {
-              var chapter = {
-                title: $(this).find('.title-wrapper a').text().trim(),
-                url: $(this).find('.title-wrapper a').attr('href'),
-                description: $(this).find('.title-wrapper button').attr('data-content'),
-                len: $(this).find('div.content p.time').text().trim(),
-                dateUploaded: $(this).find('li.date').attr('title').split('-')[1].trim(),
-                utcTime: parseDate($(this).find('li.date').attr('title').split('-')[1].trim()),
-                listened: false
-              }
-              if (isBefore($(this).find('li.date').attr('title').split('-')[1].trim(), lastDate)) {
-                resolve()
-                return false
-              } else {
-                db.insert(chapter)
-                commit('ADD_CHAPTER_TO_LIST', chapter)
-              }
-            })
+          if (!navigator.onLine) {
             resolve()
-          })
+          } else {
+            axios.get('https://www.ivoox.com/podcast-podcast-la-biblioteca-perdida_sq_f171036_1.html').then((response) => {
+              // get body data
+              const $ = cheerio.load(response.data)
+              $('.modulo-type-episodio').each(function (i, elem) {
+                var chapter = {
+                  title: $(this).find('.title-wrapper a').text().trim(),
+                  url: $(this).find('.title-wrapper a').attr('href'),
+                  description: $(this).find('.title-wrapper button').attr('data-content'),
+                  len: $(this).find('div.content p.time').text().trim(),
+                  dateUploaded: $(this).find('li.date').attr('title').split('-')[1].trim(),
+                  utcTime: parseDate($(this).find('li.date').attr('title').split('-')[1].trim()),
+                  listened: false
+                }
+                if (isBefore($(this).find('li.date').attr('title').split('-')[1].trim(), lastDate)) {
+                  resolve()
+                  return false
+                } else {
+                  db.insert(chapter)
+                  commit('ADD_CHAPTER_TO_LIST', chapter)
+                }
+              })
+              resolve()
+            })
+          }
         })
       }
     })

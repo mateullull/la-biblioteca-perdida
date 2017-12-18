@@ -70,7 +70,16 @@
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      this.$electron.ipcRenderer.send('checkUpdates')
+      if (!navigator.onLine) {
+        this.$notify({
+          title: 'Conexión a Internet',
+          message: 'No tienes conexión a Internet, la lista de audios no se actualizará ni se podrá actualizar la aplicación.',
+          type: 'warning',
+          duration: 0
+        })
+      } else {
+        this.$electron.ipcRenderer.send('checkUpdates')
+      }
 
       this.$electron.ipcRenderer.on('checkUpdatesResult', (event, data) => {
         this.$confirm('Hay actualizaciones disponibles. ¿Desea actualizar?', 'Info', {

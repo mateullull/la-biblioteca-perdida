@@ -46,14 +46,18 @@
         this.$db.update({'_id': item._id}, {$set: {listened: item.listened}})
       },
       downloadFile (url, title) {
-        this.$ga.event('AudioItem', 'DownloadFile-Clicked', url)
-        const restResourceService = new Downloader()
-        this.$store.dispatch('downloadFileFromURL', url).then((downloadURL) => {
-          restResourceService.download(downloadURL, title, (bytes, done) => {
-            this.downloadedSize = bytes
-            if (done === true) this.downloadedSize = null
+        if (!navigator.onLine) {
+          this.$message.error('Oops, No puedes descargar audios sin conexión a Internet.')
+        } else {
+          this.$ga.event('AudioItem', 'DownloadFile-Clicked', url)
+          const restResourceService = new Downloader()
+          this.$store.dispatch('downloadFileFromURL', url).then((downloadURL) => {
+            restResourceService.download(downloadURL, title, (bytes, done) => {
+              this.downloadedSize = bytes
+              if (done === true) this.downloadedSize = null
+            })
           })
-        })
+        }
       },
       // addRepo () {
       // }

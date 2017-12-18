@@ -10,7 +10,7 @@
     <div>
       <el-col :span="24" style="overflow-x: auto;height: 82vh; padding-bottom: 20px" id="listContainer">
         <audio-item v-for="item in list" v-bind:item="item" v-bind:description="item.description" v-bind:key="item.title"></audio-item>
-        <el-button style="width: 63%;margin: auto;display: block;" type="primary" v-on:click="infiniteHandler()">Mostrar más</el-button>
+        <el-button v-if="totalItems > 9" style="width: 63%;margin: auto;display: block;" type="primary" v-on:click="infiniteHandler()">Mostrar más</el-button>
       </el-col>
     </div>
   </el-row>
