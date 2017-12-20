@@ -34,7 +34,7 @@ script:
 - yarn run build
 branches:
   only:
-  - master
+  - release
 before_deploy:
 - git config --local user.name "MateuLlull"
 - git config --local user.email "mateullull88@gmail.com"

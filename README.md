@@ -14,6 +14,21 @@ Aplicación de escritorio (Linux, Windows i MacOS) para escuchar y guardar los a
 
 Para poder descargar y usar la aplicación en vuestros ordenadores solamente tenéis que ir a la sección de [Releases](https://github.com/mateullull/la-biblioteca-perdida/releases) que está en el menú superior y una vez dentro, descargar la aplicación correspondiente para vuestro sistema operativo, siempre seleccionando la última versión disponible (está marcada con el “tag” `latest release`)
 
+### Problemas conocidos al ejecutar la aplicación sobre MacOS
+
+Jesus Fernandez me hizo saber que en las versiones Sierra y High Sierra hay una protección que impide instalar aplicaciones no firmadas por Apple. Desgraciadamente yo no cuento con ningún sistema de Apple y por tanto no puedo generar aplicaciones para dicho sistema. Por lo tanto, para poder instalar la aplicación sobre estos sistemas operativos hay que realizar lo siguiente:
+
+1. Lo primero que debemos hacer es abrir una ventana de Terminal (está ubicado en Aplicaciones – Utilidades, aunque también podemos acceder desde Spotligh).
+
+
+2. En la ventana que se abre tecleamos el siguiente comando: `sudo spctl --master-disable`
+
+
+3. Nos solicitará la contraseña para confirmar el cambio. La introducimos y presionamos la tecla Enter (al escribir la contraseña no veremos aparecer los caracteres y tampoco asteriscos. Terminal no los muestra por motivos de seguridad, pero sí la está registrando).
+
+Y listo. Tras realizar estos tres pasos, si vamos a *Preferencias del sistema – Seguridad y privacidad* podremos ver como la opción *Cualquier sitio* (o *Anywhere* en caso de tener el sistema operativo en inglés) estará marcada. Esto nos permitirá instalar la aplicación correctamente.
+
+
 ## ¿Puedo contribuir al proyecto?
 
 Evidentemente! Lamentablemente mis habilidades en cuanto a diseño gráfico son muy limitadas, sería de agradecer si pudiéramos mejorar este aspecto (no solo en diseño de iconos o imágenes para la App, sino también en cuanto a su estructura y presentación de la información). Obviamente las mejoras a nivel de código también son bienvenidas.
